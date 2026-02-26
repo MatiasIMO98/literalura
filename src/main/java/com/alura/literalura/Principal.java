@@ -16,6 +16,10 @@ public class Principal {
     LibroRepository repositorio;
     private final String URL_BASE = "https://gutendex.com/books/?";
 
+    public Principal(LibroRepository repositorio){
+        this.repositorio = repositorio;
+    }
+
     public void muestraElMenu() {
         var opcion = -1;
 
