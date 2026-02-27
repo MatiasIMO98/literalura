@@ -10,14 +10,14 @@ import java.util.Scanner;
 
 public class Principal {
 
-    private Scanner teclado;
-    ConsumoAPI consumoApi;
-    ConvierteDatos conversor;
+    private Scanner teclado = new Scanner(System.in);
+    ConsumoAPI consumoApi = new ConsumoAPI();
+    ConvierteDatos conversor = new ConvierteDatos();
     LibroRepository repositorio;
-    private final String URL_BASE = "https://gutendex.com/books/?";
+    private final String URL_BASE = "https://gutendex.com/books?";
 
-    public Principal(LibroRepository repositorio){
-        this.repositorio = repositorio;
+    public Principal(LibroRepository repository){
+        this.repositorio = repository;
     }
 
     public void muestraElMenu() {
@@ -66,17 +66,16 @@ public class Principal {
 
     }
 
-    private DatosLibro getDatosSerie() {
+    private DatosLibro getDatosLibro() {
         System.out.println("Ingrese el nombre del libro que desea buscar: ");
         var titulo = teclado.nextLine();
-        var json = consumoApi.obtenerDatos(URL_BASE + titulo.replace(" ", "+"));
+        var json = consumoApi.obtenerDatos(URL_BASE + "search="+ titulo.replace(" ", "%20"));
         System.out.println(json);
-        DatosLibro datos = conversor.obtenerDatos(json, DatosLibro.class);
-        return datos;
+        return conversor.obtenerDatos(json, DatosLibro.class);
     }
 
     private void buscarLibro() {
-        DatosLibro datos = getDatosSerie();
+        DatosLibro datos = getDatosLibro();
         Libro libro = new Libro(datos);
         repositorio.save(libro);
         System.out.println(datos);

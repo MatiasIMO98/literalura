@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "Autores")
 public class Autor {
 
     @Id
@@ -14,7 +16,7 @@ public class Autor {
     private String nombre;
     private int fechaNacimiento;
     private int fechaFallecimiento;
-    @ManyToMany(mappedBy = "libro", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "autores", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Libro> libros;
 
     public Autor(){}

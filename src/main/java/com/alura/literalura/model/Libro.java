@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
+@Entity
+@Table(name = "Libros")
 public class Libro {
 
     @Id
@@ -13,10 +15,10 @@ public class Libro {
     private Long Id;
     @Column(unique = true)
     private String titulo;
-    private Double numeroDescargas;
+    private Integer numeroDescargas;
     @Enumerated(EnumType.STRING)
     private Idioma idioma;
-    @ManyToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany
     private List<Autor> autores;
 
     public Libro(){}
@@ -24,9 +26,8 @@ public class Libro {
     public Libro(DatosLibro datosLibro) {
         this.titulo = datosLibro.titulo();
         this.idioma = datosLibro.idioma();
-//        this.idioma = Idioma.fromString(datosLibro.idioma().split(",")[0].trim());
-        this.numeroDescargas = OptionalDouble.of(datosLibro.numeroDescargas()).orElse(0);
-
+//      this.idioma = Idioma.fromString(datosLibro.idioma().split(",")[0].trim());
+        this.numeroDescargas = datosLibro.numeroDescargas();
     }
 
     public Long getId() {
@@ -43,10 +44,10 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public Double getNumeroDescargas() {
+    public Integer getNumeroDescargas() {
         return numeroDescargas;
     }
-    public void setNumeroDescargas(Double numeroDescargas) {
+    public void setNumeroDescargas(Integer numeroDescargas) {
         this.numeroDescargas = numeroDescargas;
     }
 
